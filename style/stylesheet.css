@@ -5,3 +5,13 @@ td {
 th{
 	background-color: #86d3d3;
 }
+
+ol {
+	color: navy;
+	font-size: 30px;
+}
+
+li {
+	color: blue;
+	font-size: 20px;
+}
