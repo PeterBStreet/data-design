@@ -1,8 +1,8 @@
 td {
-	border:1px solid black;
+	border: 1px solid black;
 }
 
-th{
+th {
 	background-color: #86d3d3;
 }
 
@@ -13,5 +13,5 @@ ol {
 
 li {
 	color: blue;
-	font-size: 10px;
+	font-size: 30px;
 }
