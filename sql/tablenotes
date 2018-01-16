@@ -3,9 +3,9 @@ ALTER DATABASE yourDataBaseName CHARACTER SET UTF8 COLLATE utf8_unicode_ci;
 
 --Drop all the tables before query use for accurate query results
 --Dropping the tables will clear all of the data out the database
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS article;
-DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS table1;
+DROP TABLE IF EXISTS table2;
+DROP TABLE IF EXISTS table3;
 
 --Create table starts new table which is essential for xref query
 --Typically this table is the parent table for all subsiquent searches, typically!
@@ -22,26 +22,21 @@ DROP TABLE IF EXISTS author;
 --The penultimate step is to define unique index elements
 -- If an element has a unique index all of the row data associated with that column must be unique.
 --The ultimate step is to define the primary key (logical relationship entity) element all other elements to default to attribute
-CREATE TABLE user (
-	userEmail BINARY(16) NOT NULL,
-	userFullName BINARY (32) NOT NULL,
-	userLogInPreferedMethod CHAR(64) NOT NULL,
-	userAccountIdentifier CHAR(80) NOT NULL,
-	userEmailConfirmed VARCHAR(96) NOT NULL,
-	userInterestCategory1 VARCHAR(128) NOT NULL ,
-	UNIQUE(userEmail),
-	UNIQUE(userFullName),
-	UNIQUE(userAccountIdentifier),
+CREATE TABLE table1 (
+	elementtable1NameA BINARY(16) NOT NULL,
+	elementtable1NameB BINARY (32),
+	elementtable1NameC CHAR(64) NOT NULL,
+	elementtable1NameD CHAR(80),
+	elementtable1NameE VARCHAR(96) NOT NULL,
+	elementtable1NameF VARCHAR(128),
+	UNIQUE(elementtable1NameA),
+	UNIQUE(elementtable1NameB),
+	UNIQUE(elementtable1NameC),
+	UNIQUE(elementtable1NameD),
+	UNIQUE(elementtable1NameE),
+	UNIQUE(elementtable1NameF),
 	PRIMARY KEY(elementtable1NameA)
 );
--- Additional user table Attribute - userAuthorStatus
--- Additional user table Attribute - userArticleRecommendedReadList
--- Additional user table Attribute - userArticlePartialReadList
--- Additional user table Attribute - userArticleCompleteReadList
--- Additional user table Attribute - userTotalClapCount
--- Additional user table Attribute - userTotalClapCountByUserByArticle
--- Additional user table Attribute - userTotalClapCountByUsereByAuthor
--- Additional user table Attribute - userAuthorFollowList
 
 --Table 1 descriptions and rules apply to Table 2
 --Table 2 has some additional "features"
@@ -57,7 +52,7 @@ CREATE TABLE user (
 --Note how the first clause of the foreign key command does not name the child table only the indexed foreign key element/colum
 --Note how the second clause of the foreign key command names the parent table  and the indexed parent table element/colum
 --
-CREATE TABLE article (
+CREATE TABLE table2 (
 	elementtable2NameG BINARY(16) NOT NULL,
 	elementtable2NameH BINARY (16) NOT NULL,
 	elementtable2NameI CHAR(64) NOT NULL,
@@ -81,7 +76,7 @@ CREATE TABLE article (
 --Table 3 is a composit primary key which links the three tables togeather
 --The composit primary key uses the primary key from the parent and child tabls
 --REMEMBER TO CONFIRM ALL PRIMARY AND FOREIGN KEYS ARE THE SAME STRING TYPE, SIZE AND M/O STATUS
-CREATE TABLE author (
+CREATE TABLE table3 (
 	elementtable3NameA BINARY(16) NOT NULL,
 	elementtable3NameG BINARY(16) NOT NULL,
 	elementtable3NameM CHAR(64) NOT NULL,
@@ -100,22 +95,3 @@ CREATE TABLE author (
 	FOREIGN KEY(elementtable3NameG) REFERENCES table2(elementTable2NameG),
 	PRIMARY KEY(elementtable3NameA, elementtable3NameG)
 );
-
-			<ol>Article Table</ol>
-			<li>Entity - articleArticleName
-			<li>
-			<li>Attribute - articlePublishData</li>
-			<li>Attribute - articleAuthor</li>
-			<li>Attribute - articleInterestCategory</li>
-			<li>Attribute - articleTotalClapCount</li>
-			<li>Attribute - articleBookMarkStatus</li>
-			<li>Attribute - articleFewerStoriesLikeThis</li>
-			<li>Attribute - articleFewerStoriesWithThisKeyWord</li>
-			<li>Attribute - articleReportThisStory</li>
-			<ol>Author</ol>
-			<li>Entity - authorFullName</li>
-			<li>Attribute - authorPlaceOfEmployment</li>
-			<li>Attribute - authorEmploymentTitle</li>
-			<li>Attribute - authorArticleName</li>
-			<li>Attribute - authorInterestCategory</li>
-			<li></li>
