@@ -67,7 +67,7 @@ CREATE TABLE table2 (
 	UNIQUE(elementtable2NameL),
 	INDEX(elementtable2NameH),
 	FOREIGN KEY(elementtable2NameH) REFERENCES table1(elementTable1NameA),
-	PRIMARY KEY(tweetId)
+	PRIMARY KEY(elementtable2NameG)
 );
 
 -- create the like entity (a weak entity from an m-to-n for profile --> tweet)
