@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS table2;
 DROP TABLE IF EXISTS table3;
 
 --Create table starts new table which is essential for xref query
+--Typically this table is the parent table for all subsiquent searches, typically!
 --Once the table is created the elements of the table are defined
 --Elements define both entities and attributes
 --The elements define the column name, datatype, and maxwidth
@@ -40,11 +41,17 @@ CREATE TABLE table1 (
 --Table 1 descriptions and rules apply to Table 2
 --Table 2 has some additional "features"
 --Create an index key prior to making a foreign key
+--The foreign key CAN NOT be the primary key
 --The index helps sql searches find rows important to the query
 --Primary keys are automatically indexed
 --Keep xtable index keys the same string type and size or the query may have issues
---char and varchae are considered the same string type
---The foreign key creates a relationship between two tables
+--char and varchar are considered the same string type
+--The foreign key creates a relationship between the parent and child tables
+--The foreign key denotes that the table is the child
+--The foreign key (child)table must have at least one exact match elements/colum with the parent table
+--Note how the first clause of the foreign key command does not name the child table only the indexed foreign key element/colum
+--Note how the second clause of the foreign key command names the parent table  and the indexed parent table element/colum
+--
 CREATE TABLE table2 (
 	elementtable2NameG BINARY(16) NOT NULL,
 	elementtable2NameH BINARY (32),
@@ -58,18 +65,8 @@ CREATE TABLE table2 (
 	UNIQUE(elementtable2NameJ),
 	UNIQUE(elementtable2NameK),
 	UNIQUE(elementtable2NameL),
-	PRIMARY KEY(elementtable2NameG)
-
-	tweetId BINARY(16) NOT NULL,
-	-- this is for a foreign key
-	tweetProfileId BINARY(16) NOT NULL,
-	tweetContent VARCHAR(140) NOT NULL,
-	tweetDate DATETIME(6) NOT NULL,
-	-- this creates an index before making a foreign key
-	INDEX(tweetProfileId),
-	-- this creates the actual foreign key relation
-	FOREIGN KEY(tweetProfileId) REFERENCES profile(profileId),
-	-- and finally create the primary key
+	INDEX(elementtable2NameH),
+	FOREIGN KEY(elementtable2NameH) REFERENCES table1(elementTable1NameA),
 	PRIMARY KEY(tweetId)
 );
 
