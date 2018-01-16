@@ -32,7 +32,7 @@ CREATE TABLE user (
 	UNIQUE(userEmail),
 	UNIQUE(userFullName),
 	UNIQUE(userAccountIdentifier),
-	PRIMARY KEY(elementtable1NameA)
+	PRIMARY KEY(userEmail)
 );
 -- Additional user table Attribute - userAuthorStatus
 -- Additional user table Attribute - userArticleRecommendedReadList
@@ -58,22 +58,21 @@ CREATE TABLE user (
 --Note how the second clause of the foreign key command names the parent table  and the indexed parent table element/colum
 --
 CREATE TABLE article (
-	elementtable2NameG BINARY(16) NOT NULL,
-	elementtable2NameH BINARY (16) NOT NULL,
-	elementtable2NameI CHAR(64) NOT NULL,
-	elementtable2NameJ CHAR(80),
-	elementtable2NameK VARCHAR(96) NOT NULL,
-	elementtable2NameL VARCHAR(128),
-	UNIQUE(elementtable2NameG),
-	UNIQUE(elementtable2NameH),
-	UNIQUE(elementtable2NameI),
-	UNIQUE(elementtable2NameJ),
-	UNIQUE(elementtable2NameK),
-	UNIQUE(elementtable2NameL),
-	INDEX(elementtable2NameH),
-	FOREIGN KEY(elementtable2NameH) REFERENCES table1(elementTable1NameA),
-	PRIMARY KEY(elementtable2NameG)
+	articleArticleTitle BINARY(16) NOT NULL,
+	articleAuthor BINARY (16) NOT NULL,
+	articlePublishDate CHAR(64) NOT NULL,
+	articleInterestCategory CHAR(80) NOT NULL,
+	articleTotalClapCount VARCHAR (96) NOT NULL,
+	articleApproximateReadTime VARCHAR(128) NOT NULL,
+	UNIQUE(articleArticleTitle),
+	FOREIGN KEY(articleAuthor) REFERENCES user(userEmail),
+	PRIMARY KEY(articleArticleTitle)
 );
+
+-- Additional user table Attribute - articleBookMarkStatus
+-- Additional user table Attribute - articleFewerStoriesLikeThis
+-- Additional user table Attribute - articleFewerStoriesWithThisKeyWord
+-- Additional user table Attribute - articleReportThisStory
 
 --Table 3 has the same notes and constraints as table 1 and table 2
 --Table 3 is logically a weak entity providing "pivot" in a n to m relationship
@@ -101,17 +100,7 @@ CREATE TABLE author (
 	PRIMARY KEY(elementtable3NameA, elementtable3NameG)
 );
 
-			<ol>Article Table</ol>
-			<li>Entity - articleArticleName
-			<li>
-			<li>Attribute - articlePublishData</li>
-			<li>Attribute - articleAuthor</li>
-			<li>Attribute - articleInterestCategory</li>
-			<li>Attribute - articleTotalClapCount</li>
-			<li>Attribute - articleBookMarkStatus</li>
-			<li>Attribute - articleFewerStoriesLikeThis</li>
-			<li>Attribute - articleFewerStoriesWithThisKeyWord</li>
-			<li>Attribute - articleReportThisStory</li>
+
 			<ol>Author</ol>
 			<li>Entity - authorFullName</li>
 			<li>Attribute - authorPlaceOfEmployment</li>
