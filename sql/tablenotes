@@ -1,21 +1,21 @@
---The following is equivilant to the headder
+-- The following is equivilant to the headder
 ALTER DATABASE yourDataBaseName CHARACTER SET UTF8 COLLATE utf8_unicode_ci;
 
---Drop all the tables before query use for accurate query results
---Dropping the tables will clear all of the data out the database
+-- Drop all the tables before query use for accurate query results
+-- Dropping the tables will clear all of the data out the database
 DROP TABLE IF EXISTS table1;
 DROP TABLE IF EXISTS table2;
 DROP TABLE IF EXISTS table3;
 
---Create table starts new table which is essential for xref query
---Typically this table is the parent table for all subsiquent searches, typically!
---Once the table is created the elements of the table are defined
---Elements define both entities and attributes
---The elements define the column name, datatype, and maxwidth
---The element name should be tablenameDetailedDataDescription
---Additionally the element and mandatory or optional status
---Each element may have a unique name
---Each element may have a string type (binary,char, varchar)
+-- Create table starts new table which is essential for xref query
+-- Typically this table is the parent table for all subsiquent searches, typically!
+-- Once the table is created the elements of the table are defined
+-- Elements define both entities and attributes
+-- The elements define the column name, datatype, and maxwidth
+-- The element name should be tablenameDetailedDataDescription
+-- Additionally the element and mandatory or optional status
+-- Each element may have a unique name
+-- Each element may have a string type (binary,char, varchar)
 --Each element may have a string size
 --Each element may have a string status of "not null" (mandatory) or "null" (optional)
 --Each element may or may not be a unique index

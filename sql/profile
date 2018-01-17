@@ -1,110 +1,92 @@
---The following is equivilant to the headder
-ALTER DATABASE yourDataBaseName CHARACTER SET UTF8 COLLATE utf8_unicode_ci;
+-- The following is equivilant to the headder
+ALTER DATABASE pstreet1
+CHARACTER SET UTF8
+COLLATE utf8_unicode_ci;
 
---Drop all the tables before query use for accurate query results
---Dropping the tables will clear all of the data out the database
+-- Drop all the tables before query use for accurate query results
+-- Dropping the tables will clear all of the data out the database
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS author;
 
---Create table starts new table which is essential for xref query
---Typically this table is the parent table for all subsiquent searches, typically!
---Once the table is created the elements of the table are defined
---Elements define both entities and attributes
---The elements define the column name, datatype, and maxwidth
---The element name should be tablenameDetailedDataDescription
---Additionally the element and mandatory or optional status
---Each element may have a unique name
---Each element may have a string type (binary,char, varchar)
---Each element may have a string size
---Each element may have a string status of "not null" (mandatory) or "null" (optional)
---Each element may or may not be a unique index
---The penultimate step is to define unique index elements
+-- Create table starts new table which is essential for xref query
+-- Typically this table is the parent table for all subsaquent searches, typically!
+-- Once the table is created the elements of the table are defined
+-- Elements define both entities and attributes
+-- Elements are columns names
+-- The elements define the column name, datatype, and maxwidth
+-- The element name should be tablenameDetailedDataDescription
+-- Additionally the element and mandatory or optional status
+-- Each element may have a unique name
+-- Each element may have a string type (binary,char, varchar)
+-- Each element may have a string size
+-- Each element may have a string status of "not null" (mandatory) or "null" (optional)
+-- Each element may or may not be a unique index
+-- The penultimate step is to define unique index elements
 -- If an element has a unique index all of the row data associated with that column must be unique.
---The ultimate step is to define the primary key (logical relationship entity) element all other elements to default to attribute
+-- The ultimate step is to define the primary key (logical relationship entity) element all other elements to default to attribute
 CREATE TABLE user (
-	userEmail BINARY(16) NOT NULL,
-	userFullName BINARY (32) NOT NULL,
-	userLogInPreferedMethod CHAR(64) NOT NULL,
-	userAccountIdentifier CHAR(80) NOT NULL,
-	userEmailConfirmed VARCHAR(96) NOT NULL,
-	userInterestCategory1 VARCHAR(128) NOT NULL ,
-	UNIQUE(userEmail),
-	UNIQUE(userFullName),
-	UNIQUE(userAccountIdentifier),
-	PRIMARY KEY(userEmail)
+	userUserID                BINARY(16)   NOT NULL,
+	userEmail                 VARCHAR(128) NOT NULL,
+	userFullName              CHAR(128)    NOT NULL,
+	userUserInterestCategory1 CHAR(64)     NOT NULL,
+	userUserInterestCategory2 CHAR(64)     NOT NULL,
+	userUserInterestCategory3 CHAR(64)     NOT NULL,
+	UNIQUE (userUserID),
+	UNIQUE (userEmail),
+	PRIMARY KEY (userUserID)
 );
--- Additional user table Attribute - userAuthorStatus
--- Additional user table Attribute - userArticleRecommendedReadList
--- Additional user table Attribute - userArticlePartialReadList
--- Additional user table Attribute - userArticleCompleteReadList
--- Additional user table Attribute - userTotalClapCount
--- Additional user table Attribute - userTotalClapCountByUserByArticle
--- Additional user table Attribute - userTotalClapCountByUsereByAuthor
--- Additional user table Attribute - userAuthorFollowList
 
---Table 1 descriptions and rules apply to Table 2
---Table 2 has some additional "features"
---Create an index key prior to making a foreign key
---The foreign key CAN NOT be the primary key
---The index helps sql searches find rows important to the query
---Primary keys are automatically indexed
---Keep xtable index keys the same string type and size or the query may have issues
---char and varchar are considered the same string type
---The foreign key creates a relationship between the parent and child tables
---The foreign key denotes that the table is the child
---The foreign key (child)table must have at least one exact match elements/colum with the parent table
---Note how the first clause of the foreign key command does not name the child table only the indexed foreign key element/colum
---Note how the second clause of the foreign key command names the parent table  and the indexed parent table element/colum
+-- Table 1 descriptions and rules apply to Table 2
+-- Table 2 has some additional "features"
+-- Create an index key prior to making a foreign key
+-- The foreign key CAN NOT be the primary key
+-- The index helps sql searches find rows important to the query
+-- Primary keys are automatically indexed
+-- Keep xtable index keys the same string type and size or the query may have issues
+-- char and varchar are considered the same string type
+-- The foreign key creates a relationship between the parent and child tables
+-- The foreign key denotes that the table is the child
+-- The foreign key (child)table must have at least one exact match elements/colum with the parent table
+-- Note how the first clause of the foreign key command does not name the child table only the indexed foreign key element/colum
+-- Note how the second clause of the foreign key command names the parent table  and the indexed parent table element/colum
 --
 CREATE TABLE article (
-	articleArticleTitle BINARY(16) NOT NULL,
-	articleAuthor BINARY (16) NOT NULL,
-	articlePublishDate CHAR(64) NOT NULL,
-	articleInterestCategory CHAR(80) NOT NULL,
-	articleTotalClapCount VARCHAR (96) NOT NULL,
+	articleArticleTitle        VARCHAR(128) NOT NULL,
+	articleAuthorID            BINARY(16)   NOT NULL,
+	articleAuthorEmail         VARCHAR(128) NOT NULL,
+	articleAuthorFullName      CHAR(128)    NOT NULL,
+	articlePublishDate         CHAR(64)     NOT NULL,
 	articleApproximateReadTime VARCHAR(128) NOT NULL,
-	UNIQUE(articleArticleTitle),
-	FOREIGN KEY(articleAuthor) REFERENCES user(userEmail),
-	PRIMARY KEY(articleArticleTitle)
+	articleInterestCategory    CHAR(80)     NOT NULL,
+	UNIQUE (articleArticleTitle),
+	UNIQUE (articleAuthorID)
+		FOREIGN KEY (articleAuthorID) REFERENCES USER (userUserID),
+	PRIMARY KEY (articleArticleTitle)
 );
-
+-- foreign key and its reference to the primary key of the reference table are actullay the same column data!!!!!!
 -- Additional user table Attribute - articleBookMarkStatus
 -- Additional user table Attribute - articleFewerStoriesLikeThis
 -- Additional user table Attribute - articleFewerStoriesWithThisKeyWord
 -- Additional user table Attribute - articleReportThisStory
 
---Table 3 has the same notes and constraints as table 1 and table 2
---Table 3 is logically a weak entity providing "pivot" in a n to m relationship
---Table 3 has two foreign keys, each key points to a different table
---Table 3 is a composit primary key which links the three tables togeather
---The composit primary key uses the primary key from the parent and child tabls
---REMEMBER TO CONFIRM ALL PRIMARY AND FOREIGN KEYS ARE THE SAME STRING TYPE, SIZE AND M/O STATUS
+-- Table 3 has the same notes and constraints as table 1 and table 2
+-- Table 3 is logically a weak entity providing "pivot" in a n to m relationship
+-- Table 3 has two foreign keys, each key points to a different table
+-- Table 3 is a composit primary key which links the three tables togeather
+-- The composit primary key uses the primary key from the parent and child tabls
+-- REMEMBER TO CONFIRM ALL PRIMARY AND FOREIGN KEYS ARE THE SAME STRING TYPE, SIZE AND M/O STATUS
 CREATE TABLE author (
-	elementtable3NameA BINARY(16) NOT NULL,
-	elementtable3NameG BINARY(16) NOT NULL,
-	elementtable3NameM CHAR(64) NOT NULL,
-	elementtable3NameN CHAR(80),
-	elementtable3NameO VARCHAR(96) NOT NULL,
-	elementtable3NameP VARCHAR(128),
-	UNIQUE(elementtable3NameA),
-	UNIQUE(elementtable3NameG),
-	UNIQUE(elementtable3NameM),
-	UNIQUE(elementtable3NameN),
-	UNIQUE(elementtable3NameO),
-	UNIQUE(elementtable3NameP),
-	INDEX(elementtable3NameA),
-	INDEX(elementtable3NameG),
-	FOREIGN KEY(elementtable3NameA) REFERENCES table1(elementTable1NameA),
-	FOREIGN KEY(elementtable3NameG) REFERENCES table2(elementTable2NameG),
-	PRIMARY KEY(elementtable3NameA, elementtable3NameG)
+	authoruserUserID          BINARY(16)   NOT NULL,
+	authorarticleArticleTitle VARCHAR(128) NOT NULL,
+	authorAuthorEmail         VARCHAR(128) NOT NULL,
+	authorAuthorFullName      CHAR(128)    NOT NULL,
+	authorPlaceOfEmployment   CHAR(64)     NOT NULL,
+	authorEmploymentTitle     CHAR(80)     NOT NULL,
+	INDEX (authoruserUserID),
+	INDEX (authorarticleArticleTitle),
+	FOREIGN KEY (authoruserUserID) REFERENCES user (userUserID),
+	FOREIGN KEY (authorarticleArticleTitle) REFERENCES article (articleArticleTitle),
+	PRIMARY KEY (authoruserUserID, authorarticleArticleTitle)
 );
 
-
-			<ol>Author</ol>
-			<li>Entity - authorFullName</li>
-			<li>Attribute - authorPlaceOfEmployment</li>
-			<li>Attribute - authorEmploymentTitle</li>
-			<li>Attribute - authorArticleName</li>
-			<li>Attribute - authorInterestCategory</li>
-			<li></li>
