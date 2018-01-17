@@ -1,25 +1,24 @@
 
-ALTER DATABASE pstreet1
-CHARACTER SET UTF8
-COLLATE utf8_unicode_ci;
+ ALTER DATABASE pstreet1
+ CHARACTER SET UTF8
+ COLLATE utf8_unicode_ci;
 
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS article;
-DROP TABLE IF EXISTS author;
+ DROP TABLE IF EXISTS user;
+ DROP TABLE IF EXISTS article;
+ DROP TABLE IF EXISTS author;
 
 
-CREATE TABLE user (
-	userUserID                BINARY(16)   NOT NULL,
-	userEmail                 VARCHAR(128) NOT NULL,
-	userFullName              CHAR(128)    NOT NULL,
-	userUserInterestCategory1 CHAR(64)     NOT NULL,
-	userUserInterestCategory2 CHAR(64)     NOT NULL,
-	userUserInterestCategory3 CHAR(64)     NOT NULL,
-	UNIQUE (userUserID),
-	UNIQUE (userEmail),
-	PRIMARY KEY (userUserID)
-);
-
+ CREATE TABLE user (
+ 	userUserID                BINARY(16)   NOT NULL,
+ 	userEmail                 VARCHAR(128) NOT NULL,
+ 	userFullName              CHAR(128)    NOT NULL,
+ 	userUserInterestCategory1 CHAR(64)     NOT NULL,
+ 	userUserInterestCategory2 CHAR(64)     NOT NULL,
+ 	userUserInterestCategory3 CHAR(64)     NOT NULL,
+  	UNIQUE (userUserID),
+ 	UNIQUE (userEmail),
+ 	PRIMARY KEY (userUserID)
+ );
 
 CREATE TABLE article (
 	articleArticleTitle        VARCHAR(128) NOT NULL,
@@ -30,22 +29,22 @@ CREATE TABLE article (
 	articleApproximateReadTime VARCHAR(128) NOT NULL,
 	articleInterestCategory    CHAR(80)     NOT NULL,
 	UNIQUE (articleArticleTitle),
-	UNIQUE (articleAuthorID)
-		FOREIGN KEY (articleAuthorID) REFERENCES USER (userUserID),
+	UNIQUE (articleAuthorID),
+	FOREIGN KEY (articleAuthorID) REFERENCES user(userUserID),
 	PRIMARY KEY (articleArticleTitle)
 );
 
 CREATE TABLE author (
-	authoruserUserID          BINARY(16)   NOT NULL,
-	authorarticleArticleTitle VARCHAR(128) NOT NULL,
-	authorAuthorEmail         VARCHAR(128) NOT NULL,
-	authorAuthorFullName      CHAR(128)    NOT NULL,
-	authorPlaceOfEmployment   CHAR(64)     NOT NULL,
-	authorEmploymentTitle     CHAR(80)     NOT NULL,
-	INDEX (authoruserUserID),
-	INDEX (authorarticleArticleTitle),
-	FOREIGN KEY (authoruserUserID) REFERENCES user (userUserID),
-	FOREIGN KEY (authorarticleArticleTitle) REFERENCES article (articleArticleTitle),
-	PRIMARY KEY (authoruserUserID, authorarticleArticleTitle)
-);
-
+ 	authoruserUserID          BINARY(16)   NOT NULL,
+ 	authorarticleArticleTitle VARCHAR(128) NOT NULL,
+ 	authorAuthorEmail         VARCHAR(128) NOT NULL,
+ 	authorAuthorFullName      CHAR(128)    NOT NULL,
+ 	authorPlaceOfEmployment   CHAR(64)     NOT NULL,
+ 	authorEmploymentTitle     CHAR(80)     NOT NULL,
+ 	INDEX (authoruserUserID),
+ 	INDEX (authorarticleArticleTitle),
+ 	FOREIGN KEY (authoruserUserID) REFERENCES user (userUserID),
+ 	FOREIGN KEY (authorarticleArticleTitle) REFERENCES article (articleArticleTitle),
+ 	PRIMARY KEY (authoruserUserID, authorarticleArticleTitle)
+ );
+#
