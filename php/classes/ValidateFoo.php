@@ -116,9 +116,6 @@ trait ValidateDate {
 	}
 }
 
-/*
- *
-
  */
 <?php
 namespace Edu\Cnm\DataDesign;
