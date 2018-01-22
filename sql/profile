@@ -47,4 +47,6 @@ CREATE TABLE author (
  	FOREIGN KEY (authorarticleArticleTitle) REFERENCES article (articleArticleTitle),
  	PRIMARY KEY (authoruserUserID, authorarticleArticleTitle)
  );
+
+
 #
