@@ -2,8 +2,8 @@
 /*
  * Created by PhpStorm.
  * User: petersdata
- * @author Peter Street <peterbstreet@gmail.com
- * @author Dylan McDonald <dmcdonald@cnm.edu
+ * @author Peter Street <peterbstreet@gmail.com>
+ * @author Dylan McDonald <dmcdonald21@cnm.edu>
  * Date: 1/22/18
  * Time: 10:15 AM
  * Notes from DeepDiveBootCamp web site
