@@ -116,7 +116,7 @@ class Tweet implements \JsonSerializable {
 	/**
 	 * mutator method for tweet profile id
 	 *
-	 * @param string | Uuid $newTweetProfileId new value of tweet profile id
+	 * @param string|Uuid $newTweetProfileId new value of tweet profile id
 	 * @throws \RangeException if $newProfileId is not positive
 	 * @throws \TypeError if $newTweetProfileId is not an integer
 	 **
@@ -422,7 +422,7 @@ class Tweet implements \JsonSerializable {
 
 	<?php
 	namespace Edu\Cnm\DataDesign;
-
+* autoload should be in classes;
 	require_once("autoload.php");
 	require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
@@ -439,12 +439,13 @@ class Tweet implements \JsonSerializable {
 class user implements \JsonSerializable {
 	use ValidateuserUserID;
 	use ValidateUuid;
-
 * @var Uuid $userId
 	private $userId;
 }
 	 class author implements \JsonSerializable {
-	 * @var Uuid $articleAuthorID
+		 use ValidatearticleAuthorID;
+		 use ValidateUuid;
+		 * @var Uuid $articleAuthorID
 		 private $articleAuthorID;
 	 * @var string $articleArticleTitle;
 		 private $articleArticleTitle;
@@ -462,7 +463,7 @@ class user implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newTweetId, $newTweetProfileId, string $newTweetContent, $newTweetDate = null) {
+	public function __construct($newarticleArticleTitle, $newarticleAuthorID, string $newTweetContent, $newTweetDate = null) {
 		try {
 			$this->setTweetId($newTweetId);
 			$this->setTweetProfileId($newTweetProfileId);
