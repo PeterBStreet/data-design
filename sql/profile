@@ -9,22 +9,22 @@
 
 
  CREATE TABLE user (
- 	userUserID                BINARY(16)   NOT NULL,
- 	userEmail                 VARCHAR(128) NOT NULL,
- 	userFullName              CHAR(128)    NOT NULL,
- 	userUserInterestCategory1 CHAR(64)     NOT NULL,
- 	userUserInterestCategory2 CHAR(64)     NOT NULL,
- 	userUserInterestCategory3 CHAR(64)     NOT NULL,
+ 	userId                BINARY(16)   NOT NULL,
+ 	userEmail             VARCHAR(128) NOT NULL,
+ 	userFullName          CHAR(128)    NOT NULL,
+ 	userInterestCategory1 CHAR(64)     NOT NULL,
+ 	userInterestCategory2 CHAR(64)     NOT NULL,
+ 	userInterestCategory3 CHAR(64)     NOT NULL,
   	UNIQUE (userUserID),
  	UNIQUE (userEmail),
  	PRIMARY KEY (userUserID)
  );
 
 CREATE TABLE article (
-	articleArticleTitle        VARCHAR(128) NOT NULL,
-	articleAuthorID            BINARY(16)   NOT NULL,
-	articleAuthorEmail         VARCHAR(128) NOT NULL,
-	articleAuthorFullName      CHAR(128)    NOT NULL,
+	articleTitle        VARCHAR(128) NOT NULL,
+	articleID            BINARY(16)   NOT NULL,
+	articleEmail         VARCHAR(128) NOT NULL,
+	articleFullName      CHAR(128)    NOT NULL,
 	articlePublishDate         CHAR(64)     NOT NULL,
 	articleApproximateReadTime VARCHAR(128) NOT NULL,
 	articleInterestCategory    CHAR(80)     NOT NULL,
@@ -35,12 +35,12 @@ CREATE TABLE article (
 );
 
 CREATE TABLE author (
- 	authoruserUserID          BINARY(16)   NOT NULL,
- 	authorarticleArticleTitle VARCHAR(128) NOT NULL,
- 	authorAuthorEmail         VARCHAR(128) NOT NULL,
- 	authorAuthorFullName      CHAR(128)    NOT NULL,
- 	authorPlaceOfEmployment   CHAR(64)     NOT NULL,
- 	authorEmploymentTitle     CHAR(80)     NOT NULL,
+ 	userUserID          BINARY(16)   NOT NULL,
+ 	articleArticleTitle VARCHAR(128) NOT NULL,
+ 	AuthorEmail         VARCHAR(128) NOT NULL,
+ 	AuthorFullName      CHAR(128)    NOT NULL,
+ 	PlaceOfEmployment   CHAR(64)     NOT NULL,
+ 	EmploymentTitle     CHAR(80)     NOT NULL,
  	INDEX (authoruserUserID),
  	INDEX (authorarticleArticleTitle),
  	FOREIGN KEY (authoruserUserID) REFERENCES user (userUserID),
