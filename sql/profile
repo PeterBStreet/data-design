@@ -44,8 +44,71 @@ CREATE TABLE bookmark (
 
 
 /*
-insert
-update
-delete
-select
+insert with table and values
+*/
+INSERT INTO user (userId, userEmail, userFullName, userInterestCategory1, userInterestCategory2, userInterestCategory3) VALUES (1234432156788765, "bob@bobmail.com", "Bob Robert", "art", "comics", "culture");
+INSERT INTO article (articleId, userId, approximateReadTime, articleTitle, PublishDate) VALUES (1234567890, 4321123456788765, 5, "Be a Painter", 06/06/2018);
+INSERT INTO bookmark (bookmarkArticleId, bookmarkAuthorId) VALUES (1234567890, 321123456788765);
+
+/*
+select user, article, and table to confirm insert/values properly loaded
  */
+
+ SELECT * FROM user;
+ SELECT * FROM article;
+ SELECT * FROM bookmark;
+
+/*
+Insert with values only
+*/
+INSERT INTO user VALUES (8765567843211234, "bill@billmail.com", "Bill William", "lit", "film", "food");
+INSERT INTO article VALUES (9876543210, , 13, "Be at one with your dinner", 04/04/2018);
+INSERT INTO bookmark VALUES (09876543210, 246886421357997531);
+
+ /*
+ select user, article, and table to confirm second row insert/values properly loaded
+ */
+
+ SELECT * FROM user;
+ SELECT * FROM article;
+ SELECT * FROM bookmark;
+
+
+ /*
+update user from Bob Robert to Bob Roberts where c4 is art
+*/
+UPDATE user;
+SET C3 = "Robert Bobs";
+WHERE C4 = 'art';
+
+/*
+select c3 to confirm Bob Robert changed to Robert Bobs where c4 is art
+ */
+SELECT C3 FROM user WHERE C4 = 'art';
+
+ /*
+update article from Bill William to William Bills
+*/
+ UPDATE article;
+ SET C3 = "William Bills";
+ WHERE C4 = 'lit';
+
+/*
+select c3 to confirm Bill William changed to William Bills
+*/
+SELECT C3 from article WHERE C4 = 'lit';
+
+
+ /*
+ delete from article any article with a read time over ten (10) minutes
+ */
+ DELETE FROM article
+ WHERE approximateReadTime > 10;
+
+ /*
+ select user, article, and table to confirm second row was properly deleted
+ */
+
+SELECT * FROM user;
+SELECT * FROM article;
+SELECT * FROM bookmark;
