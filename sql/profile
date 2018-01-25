@@ -21,32 +21,31 @@
  );
 
 CREATE TABLE article (
-	articleTitle        VARCHAR(128) NOT NULL,
-	articleID            BINARY(16)   NOT NULL,
-	articleEmail         VARCHAR(128) NOT NULL,
-	articleFullName      CHAR(128)    NOT NULL,
-	articlePublishDate         CHAR(64)     NOT NULL,
-	articleApproximateReadTime VARCHAR(128) NOT NULL,
-	articleInterestCategory    CHAR(80)     NOT NULL,
-	UNIQUE (articleArticleTitle),
-	UNIQUE (articleAuthorID),
-	FOREIGN KEY (articleAuthorID) REFERENCES user(userUserID),
-	PRIMARY KEY (articleArticleTitle)
+	articleId        		VARCHAR(128) NOT NULL,
+	userId            	BINARY(16)   NOT NULL,
+	approximateReadTime 	VARCHAR(128) NOT NULL,
+	articleTitle      	CHAR(128)    NOT NULL,
+	PublishDate         	CHAR(64)     NOT NULL,
+	UNIQUE (articleId),
+	UNIQUE (userId),
+	FOREIGN KEY (userId) REFERENCES user(UserId),
+	PRIMARY KEY (articleId)
 );
 
-CREATE TABLE author (
- 	userUserID          BINARY(16)   NOT NULL,
- 	articleArticleTitle VARCHAR(128) NOT NULL,
- 	AuthorEmail         VARCHAR(128) NOT NULL,
- 	AuthorFullName      CHAR(128)    NOT NULL,
- 	PlaceOfEmployment   CHAR(64)     NOT NULL,
- 	EmploymentTitle     CHAR(80)     NOT NULL,
- 	INDEX (authoruserUserID),
- 	INDEX (authorarticleArticleTitle),
- 	FOREIGN KEY (authoruserUserID) REFERENCES user (userUserID),
- 	FOREIGN KEY (authorarticleArticleTitle) REFERENCES article (articleArticleTitle),
- 	PRIMARY KEY (authoruserUserID, authorarticleArticleTitle)
+CREATE TABLE bookmark (
+ 	bookmarkArticleId		BINARY(16)   NOT NULL,
+ 	bookmarkAuthorId	 	VARCHAR(128) NOT NULL,
+ 	INDEX (bookmarkArticleId),
+ 	INDEX (bookmarkAuthorId),
+ 	FOREIGN KEY (bookmarkArticleId) REFERENCES user (userId),
+ 	FOREIGN KEY (bookmarkAuthorId) REFERENCES article (articleId),
+ 	PRIMARY KEY (bookmarkArticleId, bookmarkAuthorId)
  );
 
 
-#
+/*
+insert
+update
+delete
+select
+ */
