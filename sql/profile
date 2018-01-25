@@ -3,32 +3,35 @@
  CHARACTER SET UTF8
  COLLATE utf8_unicode_ci;
 
- DROP TABLE IF EXISTS user;
+ DROP TABLE IF EXISTS 'user';
  DROP TABLE IF EXISTS article;
- DROP TABLE IF EXISTS author;
+ DROP TABLE IF EXISTS bookmark;
 
 
  CREATE TABLE user (
- 	userId                BINARY(16)   NOT NULL,
- 	userEmail             VARCHAR(128) NOT NULL,
- 	userFullName          CHAR(128)    NOT NULL,
- 	userInterestCategory1 CHAR(64)     NOT NULL,
- 	userInterestCategory2 CHAR(64)     NOT NULL,
- 	userInterestCategory3 CHAR(64)     NOT NULL,
-  	UNIQUE (userUserID),
+ 	userId BINARY(16)   NOT NULL,
+ 	userEmail VARCHAR(128) NOT NULL,
+ 	userFullName CHAR(128)    NOT NULL,
+ 	userInterestCategory1 CHAR(16)     NOT NULL,
+ 	userInterestCategory2 CHAR(16)     NOT NULL,
+ 	userInterestCategory3 CHAR(16)     NOT NULL,
+	hash CHAR(128) NOT NULL,
+	salt CHAR(64) NOT NULL,
+  	UNIQUE (UserID),
  	UNIQUE (userEmail),
- 	PRIMARY KEY (userUserID)
+ 	PRIMARY KEY (userId)
  );
 
 CREATE TABLE article (
-	articleId        		VARCHAR(128) NOT NULL,
-	userId            	BINARY(16)   NOT NULL,
-	approximateReadTime 	VARCHAR(128) NOT NULL,
-	articleTitle      	CHAR(128)    NOT NULL,
-	PublishDate         	CHAR(64)     NOT NULL,
+	articleId BINARY(16) NOT NULL,
+	userId BINARY(16) NOT NULL,
+	approximateReadTime CHAR(16) NOT NULL,
+	articleTitle VARCHAR(128) NOT NULL,
+	PublishDate VARCHAR(16) NOT NULL,
 	UNIQUE (articleId),
 	UNIQUE (userId),
-	FOREIGN KEY (userId) REFERENCES user(UserId),
+	UNIQUE (articleTitle),
+	FOREIGN KEY (userId) REFERENCES user(userId),
 	PRIMARY KEY (articleId)
 );
 
@@ -46,8 +49,8 @@ CREATE TABLE bookmark (
 /*
 insert with table and values
 */
-INSERT INTO user (userId, userEmail, userFullName, userInterestCategory1, userInterestCategory2, userInterestCategory3) VALUES (1234432156788765, "bob@bobmail.com", "Bob Robert", "art", "comics", "culture");
-INSERT INTO article (articleId, userId, approximateReadTime, articleTitle, PublishDate) VALUES (1234567890, 4321123456788765, 5, "Be a Painter", 06/06/2018);
+INSERT INTO user (userId, userEmail, userFullName, userInterestCategory1, userInterestCategory2, userInterestCategory3, hash, salt) VALUES (1234432156788765, 'bob@bobmail.com', 'Bob Robert', 'art', 'comics', 'culture', 1, 2);
+INSERT INTO article (articleId, userId, approximateReadTime, articleTitle, PublishDate) VALUES (1234567890, 4321123456788765, 5, 'Be a Painter', 06/06/2018);
 INSERT INTO bookmark (bookmarkArticleId, bookmarkAuthorId) VALUES (1234567890, 321123456788765);
 
 /*
@@ -61,8 +64,8 @@ select user, article, and table to confirm insert/values properly loaded
 /*
 Insert with values only
 */
-INSERT INTO user VALUES (8765567843211234, "bill@billmail.com", "Bill William", "lit", "film", "food");
-INSERT INTO article VALUES (9876543210, , 13, "Be at one with your dinner", 04/04/2018);
+INSERT INTO user VALUES (8765567843211234, 'bill@billmail.com', 'Bill William', 'lit', 'film', 'food', 2, 1);
+INSERT INTO article VALUES (9876543210,8877665544332211, 13, 'Be at one with your dinner', 04/04/2018);
 INSERT INTO bookmark VALUES (09876543210, 246886421357997531);
 
  /*
@@ -77,26 +80,26 @@ INSERT INTO bookmark VALUES (09876543210, 246886421357997531);
  /*
 update user from Bob Robert to Bob Roberts where c4 is art
 */
-UPDATE user;
-SET C3 = "Robert Bobs";
-WHERE C4 = 'art';
+UPDATE user
+SET userFullName = 'Robert Bobs'
+WHERE userInterestCategory1 = 'art';
 
 /*
 select c3 to confirm Bob Robert changed to Robert Bobs where c4 is art
  */
-SELECT C3 FROM user WHERE C4 = 'art';
+SELECT userFullName FROM user WHERE userInterestCategory1 = 'art';
 
  /*
 update article from Bill William to William Bills
 */
- UPDATE article;
- SET C3 = "William Bills";
- WHERE C4 = 'lit';
+ UPDATE user
+ SET userFullName = 'William Bills'
+ WHERE userInterestCategory1 = 'lit';
 
 /*
 select c3 to confirm Bill William changed to William Bills
 */
-SELECT C3 from article WHERE C4 = 'lit';
+SELECT userFullName from user WHERE userInterestCategory1 = 'lit';
 
 
  /*
