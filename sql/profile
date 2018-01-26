@@ -115,30 +115,28 @@ select user, article, and table to confirm insert/values properly loaded
 
 
 /*
-Insert with values only
+Insert second (2nd) row values into users, article, and bookmark. Again make sure the "hinge pin" is in place.
 */
 INSERT INTO user VALUES (8765567843211234, 'bill@billmail.com', 'Bill William', 'lit', 'film', 'food', 2, 1);
-INSERT INTO article VALUES (9876543210,8877665544332211, 13, 'Be at one with your dinner');
-INSERT INTO bookmark VALUES (09876543210, 246886421357997531);
+INSERT INTO article VALUES (9876543210,8765567843211234, 13, 'Be at one with your dinner');
+INSERT INTO bookmark VALUES (09876543210, 8765567843211234);
 
  /*
  select user, article, and table to confirm second row insert/values properly loaded
  */
-
  SELECT * FROM user;
  SELECT * FROM article;
  SELECT * FROM bookmark;
 
-
  /*
-update user from Bob Robert to Bob Roberts where c4 is art
+update user from Bob Robert to Bob Roberts where userInterestategory1 is 'art'
 */
 UPDATE user
 SET userFullName = 'Robert Bobs'
 WHERE userInterestCategory1 = 'art';
 
 /*
-select c3 to confirm Bob Robert changed to Robert Bobs where c4 is art
+ Select user userFullName to confirm Bob Robert changed to Robert Bobs
  */
 SELECT userFullName FROM user WHERE userInterestCategory1 = 'art';
 
@@ -150,21 +148,26 @@ update article from Bill William to William Bills
  WHERE userInterestCategory1 = 'lit';
 
 /*
-select c3 to confirm Bill William changed to William Bills
+select user userFullName to confirm Bill William changed to William Bills
 */
 SELECT userFullName from user WHERE userInterestCategory1 = 'lit';
 
+/*
+ Select from article to confirm two rows of values
+ */
+SELECT * FROM user;
 
  /*
- delete from article any article with a read time over ten (10) minutes
- */
- DELETE FROM article
- WHERE approximateReadTime > 10;
-
- /*
- select user, article, and table to confirm second row was properly deleted
+ delete from bookmark, article, and user *userId (=) 1234432156788765. When running the delete you must start with the child/child (weak entity bookmark), then the child/parent, then the parent/parent.
  */
 
+DELETE FROM bookmark WHERE bookmarkUserId = 1234432156788765;
+DELETE FROM article WHERE userId = 1234432156788765;
+DELETE FROM user WHERE userId = 1234432156788765;
+
+/*
+ select user, article, and bookmark to confirm row was properly deleted
+ */
 SELECT * FROM user;
 SELECT * FROM article;
 SELECT * FROM bookmark;
