@@ -15,6 +15,7 @@
  * Are we to follow php-fig best practices?
  * Confirm autoload as written is the correct *.psr
  * Confirm the following properly sets the autoload
+ * How do I confirm this command was propperly issued?
  */
 require_once("autoload.php");
 
@@ -32,6 +33,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  * Per php.fig best practices side effects should be declared
  * Are we following php.fig best practices?
  * Do we need to declare side effect?
+ * How do I confirm this command was propperly issued?
 */
 namespace bootcamp\git\data-design;
 
@@ -43,6 +45,7 @@ namespace bootcamp\git\data-design;
 
 /*
  * Here we load Ramsey's Uuid toolset
+ * How do I confirm this command was propperly issued?
 */
 use Ramsey\Uuid\Uuid;
 
@@ -55,6 +58,7 @@ use Ramsey\Uuid\Uuid;
  * The class is set to medium
  * This sample class does not use date therefore "use ValidateDate;" is not required
  * The article object uses userID as the and foreign primary key
+ * How do I confirm this command was propperly issued?
 */
 class Article implements \JsonSerializable {
 	use ValidateUuid;
@@ -62,12 +66,14 @@ class Article implements \JsonSerializable {
  * The medium class uses userID as the primary key
  * article object use userId for the primary key
  * The userId primary and foreign key should be a Uuid
+ * How do I confirm this command was propperly issued?
 */
 
 /*
  * This is the articles unique ID
  * Here we set the article object's articleId state to private
  * Do I need to add @var Uuid $articleId at this time?
+ * How do I confirm this command was propperly issued?
  */
 	private $articleId;
 
@@ -76,6 +82,7 @@ class Article implements \JsonSerializable {
  * Here we set the article object's userId state to private
  * userId is the foreign key
  * Do I need to add @var Uuid $userId at this time?
+ * How do I confirm this command was propperly issued?
 */
 	private $userId;
 
@@ -83,6 +90,7 @@ class Article implements \JsonSerializable {
  * This is the article's approximate read time
  * Here we set the article object's approximate read time state to private
  * Do I need to add @var $approximateReadTime?
+ * How do I confirm this command was propperly issued?
 */
 	private $approximateReadTime;
 
@@ -90,6 +98,7 @@ class Article implements \JsonSerializable {
  * This is the articl's title
  * Here we set the article object's title to private
  * Do I need to add @var string $articleTitle
+ * How do I confirm this command was propperly issued?
 */
 	private $articleTitle;
 
@@ -124,32 +133,33 @@ class Article implements \JsonSerializable {
 		}
 	}
 
-	/**
-	 * accessor method for tweet id
-	 *
-	 * @return Uuid value of tweet id
-	 **/
-	public function getTweetId() : Uuid {
-		return($this->tweetId);
+/*
+ * accessor method for articleId
+ * @return Uuid value of articleId
+ * What is the Uuid component
+ * How do I confirm this command was propperly issued?
+*/
+	public function getarticleId() : Uuid {
+		return($this->articleId);
 	}
 
-	/**
-	 * mutator method for tweet id
-	 *
-	 * @param Uuid/string $newTweetId new value of tweet id
-	 * @throws \RangeException if $newTweetId is not positive
-	 * @throws \TypeError if $newTweetId is not a uuid or string
-	 **/
-	public function setTweetId( $newTweetId) : void {
+/*
+ * mutator method for article id
+ * @param, @throws, and exceptions are straight from Dylan McDonald's code
+ * @param Uuid/string $newTweetId new value of tweet id
+ * @throws \RangeException if $newTweetId is not positive
+ * @throws \TypeError if $newTweetId is not a uuid or string
+*/
+	public function setarticleId( $newarticleId) : void {
 		try {
-			$uuid = self::validateUuid($newTweetId);
+			$uuid = self::validateUuid($newarticleId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		// convert and store the tweet id
-		$this->tweetId = $uuid;
+		$this->articleId = $uuid;
 	}
 
 	/**
