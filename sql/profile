@@ -83,7 +83,7 @@ SELECT * FROM user;
 /*
  Run insert into article with table headers and row values to populate database. Make sure the foreign key "value" in this the child table matches the "value" of the referrenced key in the parent table. Its the hinge pin!
 */
-INSERT INTO article (articleId, userId, approximateReadTime, articleTitle) VALUES (1234567890, 1234432156788765, 5, 'Be a Painter')
+INSERT INTO article (articleId, userId, approximateReadTime, articleTitle) VALUES (1234567890, 1234432156788765, 5, 'Be a Painter');
 /*
  Run select command and confirm table headers and values are correct
 */
