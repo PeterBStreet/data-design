@@ -51,7 +51,7 @@ SELECT * FROM article;
 */
 CREATE TABLE bookmark (
  	bookmarkArticleId		BINARY(16)   NOT NULL,
- 	bookmarkUserId	 	BINARY(16) NOT NULL,
+	bookmarkUserId	 	BINARY(16) NOT NULL,
  	INDEX (bookmarkArticleId),
  	INDEX (bookmarkUserId),
 	FOREIGN KEY (bookmarkArticleId) REFERENCES article (articleId),
@@ -65,7 +65,7 @@ SELECT * FROM bookmark;
 
 
 /*
- Run select user, article, and table to confirm headers are correct and to have all three tables in console
+ Run select user, article, and bookmark to confirm headers are correct and to have all three tables in console
 */
 SELECT * FROM user;
 SELECT * FROM article;
@@ -81,14 +81,32 @@ INSERT INTO user (userId, userEmail, userFullName, userInterestCategory1, userIn
 SELECT * FROM user;
 
 /*
- Run insert into article with table headers and row values to populate database
+ Run insert into article with table headers and row values to populate database. Make sure the foreign key "value" in this the child table matches the "value" of the referrenced key in the parent table. Its the hinge pin!
 */
-INSERT INTO article (articleId, userId, approximateReadTime, articleTitle) VALUES (1234567890, 4321123456788765, 5, 'Be a Painter')
+INSERT INTO article (articleId, userId, approximateReadTime, articleTitle) VALUES (1234567890, 1234432156788765, 5, 'Be a Painter')
+/*
+ Run select command and confirm table headers and values are correct
+*/
+SELECT * FROM article;
+
+/*
+ Run insert into bookmark with table headers and row values to populate database. Make sure the foreign key "value" in this the child table matches the "value" of the referrenced key in the parent table. Its the hinge pin!
+*/
+INSERT INTO bookmark (bookmarkArticleId, bookmarkUserId) VALUES (1234567890, 1234432156788765);
+/*
+ Run select command and confirm table headers and values are correct
+*/
+SELECT * FROM bookmark;
+
+/*
+ Run select user, article, and bookmark to confirm headers are correct and to have all three tables in console
+*/
+SELECT * FROM user;
+SELECT * FROM article;
+SELECT * FROM bookmark;
 
 
 
-
-INSERT INTO bookmark (bookmarkArticleId, bookmarkAuthorId) VALUES (1234567890, 321123456788765);
 
 /*
 select user, article, and table to confirm insert/values properly loaded
