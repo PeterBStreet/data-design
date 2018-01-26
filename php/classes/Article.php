@@ -11,16 +11,18 @@
  */
 
 /*
- * per php-fig standard best practices namespaces and classes must follow and autoloading psr.
- * Are we to follow php-fig best practices?
- * Confirm autoload as written is the correct *.psr
- * Confirm the following properly sets the autoload
- * How do I confirm this command was propperly issued?
+ * namespaces and autoload names must match
+ * namespace before autoload
+ * Confirm autoload as written is the correct *.psr - Later
+ * Confirm the following properly sets the autoload - Later
+ * How do I confirm this command was propperly issued? - Later
  */
+namespace DataDesign;
+
 require_once("autoload.php");
 
 /*
- * Clarification needed for dirname path
+ * Clarification needed for dirname path number of dir up to get to root project dir
 */
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
@@ -35,13 +37,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  * Do we need to declare side effect?
  * How do I confirm this command was propperly issued?
 */
-namespace bootcamp\git\data-design;
 
-	class Article
-	{
-		const VERSION = '1.0';
-		const DATE_APPROVED = '2018-01-26'
-	}
 
 /*
  * Here we load Ramsey's Uuid toolset
@@ -59,8 +55,9 @@ use Ramsey\Uuid\Uuid;
  * This sample class does not use date therefore "use ValidateDate;" is not required
  * The article object uses userID as the and foreign primary key
  * How do I confirm this command was propperly issued?
+ *  implements \JsonSerializable removed
 */
-class Article implements \JsonSerializable {
+class Article{
 	use ValidateUuid;
 /*
  * The medium class uses userID as the primary key
@@ -119,12 +116,12 @@ class Article implements \JsonSerializable {
  * should Uuids be strings or varchar
  * if $new* is not null does that needed or is it implied
 */
-	public function __construct((string/varchar) $newarticleId, (string/varchar)  $newuserId, integer $newapproximateReadTime, varchar $newarticleTitle) {
+	public function __construct($newArticleId, $newUserId, int $newApproximateReadTime, string $newArticleTitle) {
 		try {
-			$this->setarticleId($newarticleId);
-			$this->setuserId($newarticleId);
-			$this->setapproximateReadTime($newapproximateReadTime);
-			$this->setarticleTitle($newarticleTitle);
+			$this->setArticleId($newArticleId);
+			$this->setUserId($newUserId);
+			$this->setApproximateReadTime($newApproximateReadTime);
+			$this->setArticleTitle($newArticleTitle);
 		}
 			//determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -139,7 +136,7 @@ class Article implements \JsonSerializable {
  * What is the Uuid component
  * How do I confirm this command was propperly issued?
 */
-	public function getarticleId() : Uuid {
+	public function getArticleId() : Uuid {
 		return($this->articleId);
 	}
 
@@ -150,15 +147,15 @@ class Article implements \JsonSerializable {
  * @throws \RangeException if $newTweetId is not positive
  * @throws \TypeError if $newTweetId is not a uuid or string
 */
-	public function setarticleId( $newarticleId) : void {
+	public function setArticleId( $newArticleId) : void {
 		try {
-			$uuid = self::validateUuid($newarticleId);
+			$uuid = self::validateUuid($newArticleId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the tweet id
+		// convert and store the articleId
 		$this->articleId = $uuid;
 	}
 

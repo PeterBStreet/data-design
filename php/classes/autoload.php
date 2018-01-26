@@ -25,7 +25,7 @@
  * prefix: the prefix for all the classes (i.e., the namespace)
  * baseDir: the base directory for all classes (default = current directory)
 */
-$prefix = "Edu\\Cnm\\DataDesign";
+$prefix = "DataDesign";
 $baseDir = __DIR__;
 /*
  * does the class use the namespace prefix?
