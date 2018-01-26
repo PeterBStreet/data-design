@@ -2,10 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: petersdata
- * @author Peter B Street <peterbstreet@gmail.com>
- * @author Dylan McDonald
- * @author php-fig PHP Standards Recommendation <http://www.php-fig.org/psr/>
- * @author Ramsey
+ * @author Peter B Street <peterbstreet@gmail.com> - Code Revision
+ * @author Dylan McDonald <dmcdonald21@cnm.edu> - Core code outline and format
+ * @author php-fig  <http://www.php-fig.org/psr/> - PHP Standards Recommendation
+ * @author Ramsey - Uuid toolset
  * Date: 1/26/18
  * Time: 8:47 AM
  */
@@ -47,37 +47,52 @@ namespace bootcamp\git\data-design;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Small Cross Section of a Twitter like Message
- *
- * This Tweet can be considered a small example of what services like Twitter store when messages are sent and
- * received using Twitter. This can easily be extended to emulate more features of Twitter.
- *
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
- * @version 3.0.0
+ * This object is based on the article table in profile.sql
+ * The article table is a partial example of an article found at medium <https://medium.com>
  **/
-class Tweet implements \JsonSerializable {
-	use ValidateDate;
+
+/*
+ * The class is set to medium
+ * This sample class does not use date therefore "use ValidateDate;" is not required
+ * The article object uses userID as the primary key
+*/
+class Medium implements \JsonSerializable {
 	use ValidateUuid;
+
 	/**
-	 * id for this Tweet; this is the primary key
-	 * @var Uuid $tweetId
+	 * The medium class uses userID as the primary key
+	 * article object use userId for the primary key
+	 * The userId primary and foreign key should be a Uuid
+	 * Do I need to add @var Uuid $articleId at this time?
 	 **/
-	private $tweetId;
-	/**
-	 * id of the Profile that sent this Tweet; this is a foreign key
-	 * @var Uuid $tweetProfileId
-	 **/
-	private $tweetProfileId;
-	/**
-	 * actual textual content of this Tweet
-	 * @var string $tweetContent
-	 **/
-	private $tweetContent;
-	/**
-	 * date and time this Tweet was sent, in a PHP DateTime object
-	 * @var \DateTime $tweetDate
-	 **/
-	private $tweetDate;
+
+	/*
+	 * This is the articles unique ID
+	 * Here we set the article object's articleId state to private
+	 */
+	private $articleId;
+
+	/*
+	 * This is the articles author/user unique ID
+	 * Here we set the article object's userId state to private
+	 * userId is the foreign key
+	 * Do I need to add @var Uuid $userId at this time?
+	 */
+	private $userId;
+
+	/*
+	 * This is the article's approximate read time
+	 * Here we set the article object's approximate read time state to private
+	 * Do I need to add @var $approximateReadTime?
+	 */
+	private $approximateReadTime;
+
+	/*
+	 * This is the articl's title
+	 * Here we set the article object's title to private
+	 * Do I need to add @var string $articleTitle
+	 */
+	private $articleTitle;
 
 	/**
 	 * constructor for this Tweet
