@@ -54,7 +54,7 @@ use Ramsey\Uuid\Uuid;
 /*
  * The class is set to medium
  * This sample class does not use date therefore "use ValidateDate;" is not required
- * The article object uses userID as the primary key
+ * The article object uses userID as the and foreign primary key
 */
 class Medium implements \JsonSerializable {
 	use ValidateUuid;
