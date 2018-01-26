@@ -1,9 +1,13 @@
-
+/*
+ Run drop tables one line at a time in sequential order
+*/
 DROP TABLE IF EXISTS bookmark;
 DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS user;
 
-
+/*
+ Create Tables one at a time, run user Parent/Parent (entity/weak entity) create table block first
+*/
  CREATE TABLE user (
  	userId BINARY(16)   NOT NULL,
  	userEmail VARCHAR(128) NOT NULL,
@@ -18,50 +22,85 @@ DROP TABLE IF EXISTS user;
  	PRIMARY KEY (userId)
  );
 
+/*
+ Run select command and confirm table headers are correct
+*/
+ SELECT * FROM user;
+
+/*
+ Create Tables one at a time, run article Child/Parent (entity/weak entity) create table block second
+*/
 CREATE TABLE article (
 	articleId BINARY(16) NOT NULL,
 	userId BINARY(16) NOT NULL,
 	approximateReadTime CHAR(16) NOT NULL,
 	articleTitle VARCHAR(128) NOT NULL,
-	PublishDate VARCHAR(16) NOT NULL,
 	UNIQUE (articleId),
 	UNIQUE (userId),
 	UNIQUE (articleTitle),
 	FOREIGN KEY (userId) REFERENCES user(userId),
 	PRIMARY KEY (articleId)
 );
+/*
+ Run select command and confirm table headers are correct
+*/
+SELECT * FROM article;
 
+/*
+ Create Tables one at a time, run bookmark Child/Child (weak entity/weak entity) create table block third
+*/
 CREATE TABLE bookmark (
  	bookmarkArticleId		BINARY(16)   NOT NULL,
- 	bookmarkAuthorId	 	VARCHAR(128) NOT NULL,
+ 	bookmarkUserId	 	BINARY(16) NOT NULL,
  	INDEX (bookmarkArticleId),
- 	INDEX (bookmarkAuthorId),
- 	FOREIGN KEY (bookmarkArticleId) REFERENCES user (userId),
- 	FOREIGN KEY (bookmarkAuthorId) REFERENCES article (articleId),
- 	PRIMARY KEY (bookmarkArticleId, bookmarkAuthorId)
+ 	INDEX (bookmarkUserId),
+	FOREIGN KEY (bookmarkArticleId) REFERENCES article (articleId),
+	FOREIGN KEY (bookmarkUserId) REFERENCES user (userId),
+ 	PRIMARY KEY (bookmarkArticleId, bookmarkUserId)
  );
+/*
+ Run select command and confirm table headers are correct
+*/
+SELECT * FROM bookmark;
 
 
 /*
-insert with table and values
+ Run select user, article, and table to confirm headers are correct and to have all three tables in console
+*/
+SELECT * FROM user;
+SELECT * FROM article;
+SELECT * FROM bookmark;
+
+/*
+ Run insert into user with table headers and row values to populate database
 */
 INSERT INTO user (userId, userEmail, userFullName, userInterestCategory1, userInterestCategory2, userInterestCategory3, hash, salt) VALUES (1234432156788765, 'bob@bobmail.com', 'Bob Robert', 'art', 'comics', 'culture', 1, 2);
-INSERT INTO article (articleId, userId, approximateReadTime, articleTitle, PublishDate) VALUES (1234567890, 4321123456788765, 5, 'Be a Painter', 06/06/2018);
+/*
+ Run select command and confirm table headers and values are correct
+*/
+SELECT * FROM user;
+
+/*
+ Run insert into article with table headers and row values to populate database
+*/
+INSERT INTO article (articleId, userId, approximateReadTime, articleTitle) VALUES (1234567890, 4321123456788765, 5, 'Be a Painter')
+
+
+
+
 INSERT INTO bookmark (bookmarkArticleId, bookmarkAuthorId) VALUES (1234567890, 321123456788765);
 
 /*
 select user, article, and table to confirm insert/values properly loaded
  */
 
- SELECT * FROM user;
- SELECT * FROM article;
- SELECT * FROM bookmark;
+
 
 /*
 Insert with values only
 */
 INSERT INTO user VALUES (8765567843211234, 'bill@billmail.com', 'Bill William', 'lit', 'film', 'food', 2, 1);
-INSERT INTO article VALUES (9876543210,8877665544332211, 13, 'Be at one with your dinner', 04/04/2018);
+INSERT INTO article VALUES (9876543210,8877665544332211, 13, 'Be at one with your dinner');
 INSERT INTO bookmark VALUES (09876543210, 246886421357997531);
 
  /*
