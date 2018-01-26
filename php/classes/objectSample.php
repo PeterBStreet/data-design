@@ -20,7 +20,7 @@ require_once("autoload.php");
 
 /*
  * Clarification needed for dirname path
- */
+*/
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 /*
@@ -35,7 +35,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 */
 namespace bootcamp\git\data-design;
 
-	class data-design
+	class Article
 	{
 		const VERSION = '1.0';
 		const DATE_APPROVED = '2018-01-26'
@@ -43,76 +43,79 @@ namespace bootcamp\git\data-design;
 
 /*
  * Here we load Ramsey's Uuid toolset
- */
+*/
 use Ramsey\Uuid\Uuid;
 
-/**
+/*
  * This object is based on the article table in profile.sql
  * The article table is a partial example of an article found at medium <https://medium.com>
- **/
+*/
 
 /*
  * The class is set to medium
  * This sample class does not use date therefore "use ValidateDate;" is not required
  * The article object uses userID as the and foreign primary key
 */
-class Medium implements \JsonSerializable {
+class Article implements \JsonSerializable {
 	use ValidateUuid;
+/*
+ * The medium class uses userID as the primary key
+ * article object use userId for the primary key
+ * The userId primary and foreign key should be a Uuid
+*/
 
-	/**
-	 * The medium class uses userID as the primary key
-	 * article object use userId for the primary key
-	 * The userId primary and foreign key should be a Uuid
-	 * Do I need to add @var Uuid $articleId at this time?
-	 **/
-
-	/*
-	 * This is the articles unique ID
-	 * Here we set the article object's articleId state to private
-	 */
+/*
+ * This is the articles unique ID
+ * Here we set the article object's articleId state to private
+ * Do I need to add @var Uuid $articleId at this time?
+ */
 	private $articleId;
 
-	/*
-	 * This is the articles author/user unique ID
-	 * Here we set the article object's userId state to private
-	 * userId is the foreign key
-	 * Do I need to add @var Uuid $userId at this time?
-	 */
+/*
+ * This is the articles author/user unique ID
+ * Here we set the article object's userId state to private
+ * userId is the foreign key
+ * Do I need to add @var Uuid $userId at this time?
+*/
 	private $userId;
 
-	/*
-	 * This is the article's approximate read time
-	 * Here we set the article object's approximate read time state to private
-	 * Do I need to add @var $approximateReadTime?
-	 */
+/*
+ * This is the article's approximate read time
+ * Here we set the article object's approximate read time state to private
+ * Do I need to add @var $approximateReadTime?
+*/
 	private $approximateReadTime;
 
-	/*
-	 * This is the articl's title
-	 * Here we set the article object's title to private
-	 * Do I need to add @var string $articleTitle
-	 */
+/*
+ * This is the articl's title
+ * Here we set the article object's title to private
+ * Do I need to add @var string $articleTitle
+*/
 	private $articleTitle;
 
-	/**
-	 * constructor for this Tweet
-	 *
-	 * @param string|Uuid $newTweetId id of this Tweet or null if a new Tweet
-	 * @param string|Uuid $newTweetProfileId id of the Profile that sent this Tweet
-	 * @param string $newTweetContent string containing actual tweet data
-	 * @param \DateTime|string|null $newTweetDate date and time Tweet was sent or null if set to current date and time
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \TypeError if data types violate type hints
-	 * @throws \Exception if some other exception occurs
-	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-	 **/
-	public function __construct($newTweetId, $newTweetProfileId, string $newTweetContent, $newTweetDate = null) {
+/*
+ * constructor for this object Article
+ *
+ * @param Uuid string or varchar $newarticleid is the unique articleid Uuid
+ * @param Uuid string or varchar $newuserId is the unique article userId Uuid
+ * @param integer $newapproximateReadTime is the article read time in minutes
+ * @param varchar $newarticleTitle is the article title
+ * @throws \InvalidArgumentException if data types are not valid
+ * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+ * @throws \TypeError if data types violate type hints
+ * @throws \Exception if some other exception occurs
+ * @Documentation https://php.net/manual/en/language.oop5.decon.php
+ * @throws and @Documentation notes are straight from Dylan McDonald's code template
+ * Exceptions code is straight from Dylan McDonald's code
+ * should Uuids be strings or varchar
+ * if $new* is not null does that needed or is it implied
+*/
+	public function __construct((string/varchar) $newarticleId, (string/varchar)  $newuserId, integer $newapproximateReadTime, varchar $newarticleTitle) {
 		try {
-			$this->setTweetId($newTweetId);
-			$this->setTweetProfileId($newTweetProfileId);
-			$this->setTweetContent($newTweetContent);
-			$this->setTweetDate($newTweetDate);
+			$this->setarticleId($newarticleId);
+			$this->setuserId($newarticleId);
+			$this->setapproximateReadTime($newapproximateReadTime);
+			$this->setarticleTitle($newarticleTitle);
 		}
 			//determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
