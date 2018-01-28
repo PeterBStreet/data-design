@@ -19,6 +19,8 @@ DROP TABLE IF EXISTS user;
 	salt CHAR(64) NOT NULL,
   	UNIQUE (UserID),
  	UNIQUE (userEmail),
+	UNIQUE (hash),
+	UNIQUE (salt),
  	PRIMARY KEY (userId)
  );
 
