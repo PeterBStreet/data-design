@@ -204,7 +204,7 @@ class Article{
 	 * @return int value of approximateReadTime
 	 * Note how this is :int is this correct? Where :int set?
 	 **/
-	public function getApproximateReadTime() :int {
+	public function getApproximateReadTime() : int{
 		return($this->approximateReadTime);
 	}
 
@@ -362,7 +362,7 @@ class Article{
 	 * gets the Article by user id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $userId profile id to search by
+	 * @param Uuid|string $userId to search by
 	 * @return \SplFixedArray SplFixedArray of Articles found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -399,78 +399,69 @@ Id";
 	}
 
 	/**
-	 * gets the Tweet by content
+	 * gets the Articles by approximateReadTime
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $tweetContent tweet content to search for
-	 * @return \SplFixedArray SplFixedArray of Tweets found
+	 * @param int $approximateReadTime article content to search for
+	 * @return \SplFixedArray SplFixedArray of Articles found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getTweetByTweetContent(\PDO $pdo, string $tweetContent) : \SplFixedArray {
-		// sanitize the description before searching
-		$tweetContent = trim($tweetContent);
-		$tweetContent = filter_var($tweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($tweetContent) === true) {
-			throw(new \PDOException("tweet content is invalid"));
+	public static function getArticlesByApproximateReadTime(\PDO $pdo, int $approximateReadTime) : \SplFixedArray {
 		}
-
-		// escape any mySQL wild cards
-		$tweetContent = str_replace("_", "\\_", str_replace("%", "\\%", $tweetContent));
-
 		// create query template
-		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetContent LIKE :tweetContent";
+		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE approximateReadTime LIKE :approximateReadTime";
 		$statement = $pdo->prepare($query);
 
 		// bind the tweet content to the place holder in the template
-		$tweetContent = "%$tweetContent%";
-		$parameters = ["tweetContent" => $tweetContent];
+		$approximateReadTime = "%$approximateReadTime%";
+		$parameters = ["approximateReadTime" => $approximateReadTime];
 		$statement->execute($parameters);
 
-		// build an array of tweets
-		$tweets = new \SplFixedArray($statement->rowCount());
+		// build an array of articles
+		$articles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-				$tweets[$tweets->key()] = $tweet;
-				$tweets->next();
+				$articles = new Articles($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
+				$articles[$articles->key()] = $article;
+				$articles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($tweets);
+		return($articles);
 	}
 
 	/**
-	 * gets all Tweets
+	 * gets all Articles
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of Tweets found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Articles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllTweets(\PDO $pdo) : \SPLFixedArray {
+	public static function getAllArticles(\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet";
+		$query = "SELECT articleID, userId, approximateReadTime, articleTitle FROM article";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
 		// build an array of tweets
-		$tweets = new \SplFixedArray($statement->rowCount());
+		$articles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-				$tweets[$tweets->key()] = $tweet;
-				$tweets->next();
+				$article = new Article($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
+				$articles[$articles->key()] = $article;
+				$articles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($tweets);
+		return ($articles);
 	}
 
 	/**
@@ -481,11 +472,8 @@ Id";
 	public function jsonSerialize() : array {
 		$fields = get_object_vars($this);
 
-		$fields["tweetId"] = $this->tweetId->toString();
-		$fields["tweetProfileId"] = $this->tweetProfileId->toString();
+		$fields["articleId"] = $this->articleId->toString();
+		$fields["userId"] = $this->userId->toString();
 
-		//format the date so that the front end can consume it
-		$fields["tweetDate"] = round(floatval($this->tweetDate->format("U.u")) * 1000);
-		return($fields);
 	}
 }
