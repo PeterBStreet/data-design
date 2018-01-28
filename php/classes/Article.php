@@ -319,7 +319,7 @@ class Article{
 	}
 
 	/**
-	 * gets the Tweet by tweetId
+	 * gets the Article by articeId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid|string $articleId article id to search for
@@ -343,7 +343,7 @@ class Article{
 		$parameters = ["articleId" => $articleId->getBytes()];
 		$statement->execute($parameters);
 
-		// grab the tweet from mySQL
+		// grab the article from mySQL
 		try {
 			$article = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -359,42 +359,43 @@ class Article{
 	}
 
 	/**
-	 * gets the Tweet by profile id
+	 * gets the Article by user id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $tweetProfileId profile id to search by
-	 * @return \SplFixedArray SplFixedArray of Tweets found
+	 * @param Uuid|string $userId profile id to search by
+	 * @return \SplFixedArray SplFixedArray of Articles found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getTweetByTweetProfileId(\PDO $pdo, $tweetProfileId) : \SplFixedArray {
+	public static function getArticleByArticleId(\PDO $pdo, $userId) : \SplFixedArray {
 
 		try {
-			$tweetProfileId = self::validateUuid($tweetProfileId);
+			$userId = self::validateUuid($userId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		// create query template
-		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetProfileId = :tweetProfileId";
+		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE userId = :user
+Id";
 		$statement = $pdo->prepare($query);
-		// bind the tweet profile id to the place holder in the template
-		$parameters = ["tweetProfileId" => $tweetProfileId->getBytes()];
+		// bind the user id to the place holder in the template
+		$parameters = ["userId" => $userId->getBytes()];
 		$statement->execute($parameters);
-		// build an array of tweets
-		$tweets = new \SplFixedArray($statement->rowCount());
+		// build an array of articles
+		$articles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-				$tweets[$tweets->key()] = $tweet;
-				$tweets->next();
+				$article = new Article($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
+				$[$article->key()] = $article;
+				$articles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($tweets);
+		return($articles);
 	}
 
 	/**
