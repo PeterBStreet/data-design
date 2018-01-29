@@ -232,7 +232,7 @@ class Article{
 		}
 
 		/*
-		*store the tweet content
+		*store the approximate read time
 * note there is no converstion
 		 * is conversion need for the int
 		 */
@@ -302,7 +302,7 @@ class Article{
 	}
 
 	/**
-	 * updates this Tweet in mySQL
+	 * updates this Article in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -327,8 +327,8 @@ class Article{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getArticleByArticleId(\PDO $pdo, $tweetId) : ?Article {
-		// sanitize the tweetId before searching
+	public static function getArticleByArticleId(\PDO $pdo, $articleId) : ?Article {
+		// sanitize the articleId before searching
 		try {
 			$articleId = self::validateUuid($articleId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -339,7 +339,7 @@ class Article{
 		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE articleId = :articleId";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet id to the place holder in the template
+		// bind the article id to the place holder in the template
 		$parameters = ["articleId" => $articleId->getBytes()];
 		$statement->execute($parameters);
 
@@ -376,8 +376,7 @@ class Article{
 		}
 
 		// create query template
-		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE userId = :user
-Id";
+		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE userId = :use";
 		$statement = $pdo->prepare($query);
 		// bind the user id to the place holder in the template
 		$parameters = ["userId" => $userId->getBytes()];
