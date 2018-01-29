@@ -14,17 +14,20 @@
  */
 
 /*
- *    namespaces and autoload names must match
+ * Set the namespace for object DataDesign
+ *
  *    namespace must come before autoload
- *    Set the namespace for objectSample object
+ *    namespaces and autoload names must match
+ *    Class Name and Namespace are PSR4
  *    Confirm autoload as written is the correct *.psr - Later
- *    Confirm the following properly sets the autoload - Later
  *    How do I confirm this command was propperly issued? - Later
  */
 namespace DataDesign;
 require_once("autoload.php");
 
 /*
+ * Path to autoload.php
+ *
  *    The __DIR__, 2 indicates that the autoload will go up 0, 1, 2 directory layers starting with the current directory layer to load autoload.
  *    Do we need to declare side effect?
  *    How do I confirm this command was propperly issued? - Later
@@ -32,68 +35,71 @@ require_once("autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 /*
-    * Here we load Ramsey's Uuid toolset
-    * How do I confirm this command was propperly issued? - Later
+ * Here we load Ramsey's Uuid toolset
+ *
+ *    How do I confirm this command was propperly issued? - Later
 */
 use Ramsey\Uuid\Uuid;
 
 /*
+ * The class is definded and set to Article
+ * This class uses Uuids
+ *
  *    This object is based on the article table in profile.sql
  *    The article table is a partial example of an article found at Medium <https://medium.com>
- *    The class is definded and set to Article
- *    Notice Class Name only is PSR4
- *    This sample class does not use date therefore "use ValidateDate;" is not required
- *    The Article object uses userID as the and foreign primary key
- *    How do I confirm this command was propperly issued? - Later
+ *    Class Name and Namespace are PSR4
  *    "implements \JsonSerializable" removed until later
+ *    How do I confirm this command was propperly issued? - Later
 */
 class Article{
 	use ValidateUuid;
 /*
- *    The Article class uses userID as the primary key
- *    The userId primary and foreign key should be a Uuid
- *    How do I confirm this command was propperly issued?
-*/
-
-/*
- *    This is the articles unique ID
- *    Here we set the article object's articleId state to private
- *    Do I need to add @var Uuid $articleId at this time?
+ * Article uses articleId as the primary key
+ * articleId is the primary key
+ * articleId is a Uuid
+ * @var Uuid $articleId
+ * articleId state set to private
+ *
  *    How do I confirm this command was propperly issued?
  */
 	private $articleId;
 
 /*
- * This is the articles author/user unique ID
- * Here we set the article object's userId state to private
+ * Article uses userId as the foreign key
  * userId is the foreign key
- * Do I need to add @var Uuid $userId at this time?
- * How do I confirm this command was propperly issued?
+ * userId is a Uuid
+ * @var Uuid $userId
+ * userId state set to private
+ *
+ *    How do I confirm this command was propperly issued?
 */
 	private $userId;
 
-/*
+/* Article uses approximateReadTime as an element
  * This is the article's approximate read time
- * Here we set the article object's approximate read time state to private
- * Do I need to add @var $approximateReadTime?
- * How do I confirm this command was propperly issued?
+ * @var int approximateReadTime
+ * approximateReadTime state set to private
+ *
+ *    How do I confirm this command was propperly issued?
 */
 	private $approximateReadTime;
 
 /*
+ * Article uses articleTitle as an element
  * This is the articl's title
- * Here we set the article object's article title state to private
- * Do I need to add @var string $articleTitle
- * How do I confirm this command was propperly issued?
+ * @var string articleTitle
+ * articleTitle state set to private
+ *
+ *    How do I confirm this command was propperly issued?
 */
 	private $articleTitle;
 
 /*
- * constructor for this object Article
- * note how in class the names are camelCase and below they are UpperCamelCase(pascal) why?
- * ? Here we construct the object article and associate the object states with?
- * @param ? Uuid $newarticleid is the unique articleid Uuid
- * @param ? Uuid $newuserId is the unique article userId Uuid
+ * constructor for Article
+ *
+ * Constructs the object article and associated object's states
+ * @param Uuid $newarticleid is the unique articleid Uuid
+ * @param Uuid $newuserId is the unique article userId Uuid
  * @param integer $newapproximateReadTime is the article read time in minutes
  * @param string $newarticleTitle is the article title
  * @throws \InvalidArgumentException if data types are not valid
@@ -103,12 +109,12 @@ class Article{
  * @Documentation <https://php.net/manual/en/language.oop5.decon.php>
  * @throws and @Documentation notes are straight from Dylan McDonald's code template
  * Exceptions code is straight from Dylan McDonald's code
- * Why the __ in "public function__construct"
- * ?should Uuids be strings or varchar?
- * if $new* is not null does that needed or is it implied
- * How do the @param and @throws work? Where should they be added?
- * Are Uuid's ints, strings?? what other types are there in PHP do they need to be stated. If stated now can we skip them in the "public function get" later
- * where can I find info on public or function in the php documentation
+ *
+ *    note how in class the names are camelCase and below they are UpperCamelCase(pascal) why?
+ *    Why the __ in "public function__construct"
+ *    if $new* is not null does that needed or is it implied
+ *    Uuid's, ints, strings: what other types are there in PHP.
+ *    where can I find info on public or function in the php documentation
 */
 	public function __construct($newArticleId, $newUserId, int $newApproximateReadTime, string $newArticleTitle) {
 		try {
@@ -117,11 +123,6 @@ class Article{
 			$this->setApproximateReadTime($newApproximateReadTime);
 			$this->setArticleTitle($newArticleTitle);
 		}
-
-		/*
-		 *
-		 *determine what exception type was thrown Do we really need this both here and in the mutator section?
-		*/
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -130,13 +131,10 @@ class Article{
 
 /*
  * accessor method for articleId
- *
  * @return Uuid value of articleId
  *
- * Is accessor/get the php equivilant of sql's select?
- * Run "@return Uuid value of articleId" now or once Uuid is populated
- * Confirm the Uuid component @return syntax
- * How do I confirm this command was propperly issued?
+ *    Is accessor/get the php equivilant of sql's select?
+ *    How do I confirm this command was propperly issued?
 */
 	public function getArticleId() : Uuid {
 		return($this->articleId);
@@ -144,16 +142,10 @@ class Article{
 
 /*
  * Mutator method for article id
- *
  * @param Uuid/string $newArticleId new value of articleId
  * @throws \RangeException if $newArticleId is not positive
  * @throws \TypeError if $newArticleId is not a uuid or string
- *
- * note that there may be issues with the validateUuid if the class does not have Uuids loaded into sql
- * @param, @throws, and exceptions are straight from Dylan McDonald's code
- * @param Uuid/string $newArticleId new value of articleId
- * @throws \RangeException if $newArticleId is not positive
- * @throws \TypeError if $newArticleId is not a uuid or string
+ *    @param, @throws, and exceptions are straight from Dylan McDonald's code
 */
 	public function setArticleId( $newArticleId) : void {
 		try {
@@ -164,15 +156,13 @@ class Article{
 		}
 /*
 * Convert and store the articleId
- *
- * Is this for uuid's only?
+ *    Is convert for uuid's only?
 */
 		$this->articleId = $uuid;
 	}
 
 	/**
 	 * accessor method for userid
-	 *
 	 * @return Uuid value of userid
 	 **/
 	public function getUserId() : Uuid{
@@ -193,75 +183,52 @@ class Article{
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
-		// convert and store the userid Do we need this if no uuid?
+/*
+ * Convert and store the userid
+*/
 		$this->userId = $uuid;
 	}
 
-	/**
-	 * accessor method for approximateReadTime
-	 *
-	 * @return int value of approximateReadTime
-	 * Note how this is :int is this correct? Where :int set?
-	 **/
+/*
+ * accessor method for approximateReadTime
+ * @return int value of approximateReadTime
+ *    Note how this is :int is this correct? Where :int set?
+*/
 	public function getApproximateReadTime() : int{
 		return($this->approximateReadTime);
 	}
 
-	/**
-	 * mutator method for approximateReadTime
-	 *
-	 * @param string $newApproximateReadTime new value of approximateReadTime - use with approximateReadTime
-	 * @throws \InvalidArgumentException if $newTweetContent is not an int or insecure
-	 * @throws \RangeException if $newApproximateReadTime is > 1000
-	 * @throws \TypeError if $newApproximateReadTime is not an int
-	 * "This code verifies if the tweet content is secure" What does secure mean?
-	 *    $newTweetContent = trim($newTweetContent); Trim new tweets before writing?
-	 *    $newTweetContent = filter_var($newTweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES); Are the caps part of ramsey?
-	 *    if(empty($newTweetContent) === true) {
-	*     throw(new \InvalidArgumentException("tweet content is empty or insecure")); Is this php statment equilivant to the NOT NULL in the sql statement."CREATE TABLE user (userId BINARY(16) NOT NULL,"?
-	* "Verify the tweet content will fit in the database" Is this php statment equilivant to sql's entity type and len in the sql statement."CREATE TABLE user (userId BINARY(16) NOT NULL,"?
-	if(strlen($newTweetContent) > 140) {
-	throw(new \RangeException("tweet content too large"));
-	 * is the catch needed here?
-	 **/
-	public function setApproximateReadTime(int $newApproximateReadTime) : void {
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-
-		/*
-		*store the approximate read time
-* note there is no converstion
-		 * is conversion need for the int
-		 */
-
+/*
+ * mutator method for approximateReadTime
+ * @param int $newApproximateReadTime new value of approximateReadTime
+ * @throws \InvalidArgumentException if $newApproximate is not an int or insecure
+ * @throws \RangeException if $newApproximateReadTime is > 1000
+ * @throws \TypeError if $newApproximateReadTime is not an int
+*/
+	public function setApproximateReadTime(int $newApproximateReadTime) {
+		$newApproximateReadTime = filter_var($newApproximateReadTime, FILTER_VALIDATE_INT);
+/*
+ * store the approximate read time
+ *    Is conversion need for the int
+*/
 		$this->approximateReadTime = $newApproximateReadTime;
 	}
 
-	/**
-	 * accessor method for articleTitle
-
-	 * @return string value of articleTitle
-	 *
-	 * @return \DateTime value of *namedate - sample
-	 **/
+/*
+ * accessor method for articleTitle
+ * @return string value of articleTitle
+ */
 	public function getarticleTitle() : string {
 		return($this->articleTitle);
 	}
 
-	/**
-	 * mutator method for articleTitle
-	 *
-	 * @throws \InvalidArgumentException if $newArticleTitle is not a valid string
+/*
+ * mutator method for articleTitle
+ * @throws \InvalidArgumentException if $newArticleTitle is not a valid string
 	 **/
-	public function setArticleTitle(string $newArticleTitle) : void {
-		 } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-	throw(new $exceptionType($exception->getMessage(), 0, $exception));
-	}
-		$this->articleTitle = $newArticleTitle;
+	public function setArticleTitle($newArticleTitle) {
+		return($this->articleTitle);
+			$this->articleTitle = $newArticleTitle;
 	}
 
 	/**
@@ -412,7 +379,7 @@ class Article{
 		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE approximateReadTime LIKE :approximateReadTime";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet content to the place holder in the template
+		// bind the content to the place holder in the template
 		$approximateReadTime = "%$approximateReadTime%";
 		$parameters = ["approximateReadTime" => $approximateReadTime];
 		$statement->execute($parameters);
