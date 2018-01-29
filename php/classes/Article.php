@@ -448,7 +448,7 @@ Id";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of tweets
+		// build an array of articles
 		$articles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -462,18 +462,16 @@ Id";
 			}
 		}
 		return ($articles);
-	}
 
 	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
 	 **/
+
 	public function jsonSerialize() : array {
 		$fields = get_object_vars($this);
-
 		$fields["articleId"] = $this->articleId->toString();
 		$fields["userId"] = $this->userId->toString();
-
 	}
-}
+
