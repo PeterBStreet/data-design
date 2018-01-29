@@ -205,13 +205,15 @@ class Article{
  * @throws \RangeException if $newApproximateReadTime is > 1000
  * @throws \TypeError if $newApproximateReadTime is not an int
 */
-	public function setApproximateReadTime(int $newApproximateReadTime) {
+	public function setApproximateReadTime($newApproximateReadTime) {
 		$newApproximateReadTime = filter_var($newApproximateReadTime, FILTER_VALIDATE_INT);
-/*
- * store the approximate read time
- *    Is conversion need for the int
+		if($newApproximateReadTime === false) (
+			throw(new UnexpectedValueException("Approximate Read Time is not a valid integer"));
+		)
+		/*
+ * convert and store the approximate read time
 */
-		$this->approximateReadTime = $newApproximateReadTime;
+		$this->approximateReadTime = intval($newApproximateReadTime);
 	}
 
 /*
@@ -326,7 +328,7 @@ class Article{
 	}
 
 	/**
-	 * gets the Article by user id
+	 * gets the Article by userId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid|string $userId to search by
