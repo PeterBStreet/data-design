@@ -307,7 +307,6 @@ class Article{
 		// create query template
 		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE articleId = :articleId";
 		$statement = $pdo->prepare($query);
-
 		// bind the article id to the place holder in the template
 		$parameters = ["articleId" => $articleId->getBytes()];
 		$statement->execute($parameters);
@@ -336,7 +335,7 @@ class Article{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getArticleByArticleId(\PDO $pdo, $userId) : \SplFixedArray {
+	public static function getArticleByUserId(\PDO $pdo, $userId) : \SplFixedArray {
 
 		try {
 			$userId = self::validateUuid($userId);
@@ -345,7 +344,7 @@ class Article{
 		}
 
 		// create query template
-		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE userId = :use";
+		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 		// bind the user id to the place holder in the template
 		$parameters = ["userId" => $userId->getBytes()];
@@ -356,7 +355,7 @@ class Article{
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$article = new Article($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
-				$[$article->key()] = $article;
+				[$article->key()] = $article;
 				$articles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
@@ -375,32 +374,31 @@ class Article{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getArticlesByApproximateReadTime(\PDO $pdo, int $approximateReadTime) : \SplFixedArray {
-		}
-		// create query template
-		$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE approximateReadTime LIKE :approximateReadTime";
-		$statement = $pdo->prepare($query);
+	public static function getArticleByApproximateReadTime(\PDO $pdo, $approximateReadTime) : \SplFixedArray {
+		{
+			// create query template
+			$query = "SELECT articleId, userId, approximateReadTime, articleTitle FROM article WHERE approximateReadTime = :approximateReadTime";
+			$statement = $pdo->prepare($query);
+			// bind the content to the place holder in the template
+			$approximateReadTime = "%$approximateReadTime%";
+			$parameters = ["approximateReadTime" => $approximateReadTime];
+			$statement->execute($parameters);
 
-		// bind the content to the place holder in the template
-		$approximateReadTime = "%$approximateReadTime%";
-		$parameters = ["approximateReadTime" => $approximateReadTime];
-		$statement->execute($parameters);
-
-		// build an array of articles
-		$articles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$articles = new Articles($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
-				$articles[$articles->key()] = $article;
-				$articles->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			// build an array of articles
+			$articles = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$articles = new Articles($row["articleId"], $row["userId"], $row["approximateReadTime"], $row["articleTitle"]);
+					$articles[$articles->key()] = $articles;
+					$articles->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
 			}
 		}
 		return($articles);
-	}
 
 	/**
 	 * gets all Articles
@@ -410,7 +408,7 @@ class Article{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllArticles(\PDO $pdo) : \SPLFixedArray {
+	public static__function getAllArticles(\PDO $pdo) : \SPLFixedArray {
 		// create query template
 		$query = "SELECT articleID, userId, approximateReadTime, articleTitle FROM article";
 		$statement = $pdo->prepare($query);
